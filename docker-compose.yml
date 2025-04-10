@@ -1,0 +1,19 @@
+services:
+  spa:
+    container_name: spa
+    build: ./front
+    volumes:
+      - spa-volume:/var/www/html
+
+  nginx:
+    container_name: nginx_server
+    build: ./nginx
+    ports:
+      - 80:80
+    volumes:
+      - spa-volume:/var/www/html
+    depends_on:
+      - spa    
+
+volumes:
+  spa-volume:

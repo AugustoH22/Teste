@@ -1,19 +1,50 @@
 services:
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: adesp_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: always
+
+  api:
+    container_name: api
+    build: ./back
+    restart: always
+    ports:
+      - 8080:8080
+    env_file:
+      - ./back/.env  
+    depends_on:
+      - postgres
+
   spa:
     container_name: spa
     build: ./front
     volumes:
       - spa-volume:/var/www/html
+    env_file:
+      - ./front/.env  
+    depends_on:
+      - api
 
   nginx:
     container_name: nginx_server
     build: ./nginx
     ports:
-      - 80:80
+      - 5173:80
     volumes:
       - spa-volume:/var/www/html
     depends_on:
-      - spa    
+      - spa
+      - api
+      - postgres
 
 volumes:
   spa-volume:
+  postgres-data:

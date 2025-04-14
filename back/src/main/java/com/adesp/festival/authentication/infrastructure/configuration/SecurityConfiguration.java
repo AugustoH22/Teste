@@ -42,6 +42,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/request-recovery").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/auth/signup/verify-invite").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/voting/vote").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);

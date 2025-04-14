@@ -1,0 +1,1 @@
+ALTER TABLE voting_tokens DROP COLUMN created_by;

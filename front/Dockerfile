@@ -8,8 +8,6 @@ RUN rm -rf node_modules
 
 RUN yarn 
 
-RUN yarn install --legacy-peer-deps
-
 RUN yarn add --dev @types/canvas-confetti
 
 RUN yarn build

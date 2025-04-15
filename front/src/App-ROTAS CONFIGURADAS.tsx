@@ -2,10 +2,9 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import LoginPage from "./authentication/pages/Login";
 import AuthProvider, { useAuth } from "./authentication/contexts/AuthContext";
 import SignUpPage from "./authentication/pages/SignUp";
-import Access from "./voting/components/Access";
-import Voting from "./voting/components/Voting";
-import Final from "./voting/components/Final";
-import Menu from "./Admin/page";
+import Access from "./voting/pages/Access";
+import Voting from "./voting/pages/Voting";
+import Final from "./voting/pages/Final";
 
 const ProtectedRoute = () => {
   const credentials = useAuth();
@@ -47,7 +46,6 @@ function App() {
 
           {/* Rotas de administrador */}
           <Route path="admin">
-            <Route path="menu" element={<Menu />} />
             {/* Aqui você pode adicionar outras telas de admin */}
           </Route>
         </Route>

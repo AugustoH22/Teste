@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header";
+import Header from "../components/Header";
 import img from "../assets/votation1.png";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 import { motion } from "framer-motion";
 import { fadeUpTitle } from "@/core/animations/cardVariants";
-import { ScreensPropTypes } from "../types/ScreensPropTypes";
 
 // Máscara de CPF
 function maskCPF(value: string): string {
@@ -27,7 +26,7 @@ function maskPhone(value: string): string {
     .replace(/(-\d{4})\d+?$/, '$1');
 }
 
-export default function Access({ onNavigate, formRegister }: ScreensPropTypes) {
+export default function Access() {
   const [cpf, setCpf] = useState("");
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -35,6 +34,8 @@ export default function Access({ onNavigate, formRegister }: ScreensPropTypes) {
   const [cpfError, setCpfError] = useState("");
   const [nomeError, setNomeError] = useState("");
   const [telefoneError, setTelefoneError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     let valid = true;
@@ -65,7 +66,7 @@ export default function Access({ onNavigate, formRegister }: ScreensPropTypes) {
     }
 
     if (valid) {
-      onNavigate("voting");
+      navigate("/vote/voting");
     }
   };
 
@@ -104,7 +105,6 @@ export default function Access({ onNavigate, formRegister }: ScreensPropTypes) {
               color="default"
               isRequired
               value={cpf}
-              {...formRegister("cpf")}
               onChange={(e) => setCpf(maskCPF(e.target.value))}
             />
             {cpfError && <p className="text-sm mt-1 text-[#7B0000]">{cpfError}</p>}
@@ -123,7 +123,6 @@ export default function Access({ onNavigate, formRegister }: ScreensPropTypes) {
               isRequired
               value={nome}
               maxLength={45}
-              {...formRegister("name")}
               onChange={(e) => {
                 const onlyLetters = e.target.value.replace(/[^A-Za-zÀ-ÿ\s]/g, "");
                 setNome(onlyLetters);
@@ -144,7 +143,6 @@ export default function Access({ onNavigate, formRegister }: ScreensPropTypes) {
               color="default"
               isRequired
               value={telefone}
-              {...formRegister("name")}
               onChange={(e) => setTelefone(maskPhone(e.target.value))}
             />
             {telefoneError && <p className="text-sm mt-1 text-[#7B0000]">{telefoneError}</p>}

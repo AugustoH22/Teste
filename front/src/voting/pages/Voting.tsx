@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header";
-import { Descrition } from "./Descrition";
+import Header from "../components/Header";
+import { Descrition } from "../components/Descrition";
 import "../styles/range.css";
 import returnImg from "../assets/return.png";
-import { ScreensPropTypes } from "../types/ScreensPropTypes";
-import { Button } from "@heroui/button";
-import { ChevronLeft } from "lucide-react";
 
 const VALOR_INICIAL = 5.0;
 
@@ -66,7 +63,7 @@ function RatingInput({
   );
 }
 
-export default function Voting({ onNavigate }: ScreensPropTypes) {
+export default function Voting() {
   const navigate = useNavigate();
 
   const lugar = "Restaurante Araguaia";
@@ -108,16 +105,16 @@ export default function Voting({ onNavigate }: ScreensPropTypes) {
         {/* Cabeçalho com botão de voltar */}
         <div className="w-full max-w-2xl flex items-center justify-between mb-6">
           <div className="flex items-center gap-3 mt-3 w-full justify-start max-w-2xl mb-4">
-            <Button
-              onPress={() => onNavigate("initial")}
-              className="bg-[#FB844A]"
-              type="button"
-              radius="sm"
-              size="md"
-              isIconOnly
+            <button
+              onClick={() => navigate(-1)}
+              className="hover:opacity-80"
             >
-              <ChevronLeft color="white"/>
-            </Button>
+              <img
+                src={returnImg}
+                alt="Voltar"
+                className="h-8 w-8"
+              />
+            </button>
             <h1 className="text-3xl sm:text-4xl font-bold text-[#FFEAC9]">
               Voto
             </h1>

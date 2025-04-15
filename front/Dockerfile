@@ -10,7 +10,7 @@ RUN yarn
 
 RUN yarn add --dev @types/canvas-confetti
 
-RUN yarn build
+RUN NODE_OPTIONS="--max-old-space-size=2048" yarn build
 
 RUN mkdir -p /var/www/html
 

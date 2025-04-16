@@ -25,8 +25,8 @@ public class CreateDishVoteUseCase {
         VotingToken votingToken = this.votingTokenService.findVotingTokenByToken(dishVote.getVotingToken().getVotingToken());
         dishVote.setVotingToken(new VotingToken(votingToken.getId()));
         this.votingTokenService.isVotingTokenValid(votingToken);
+        this.votingTokenService.cpfHasAlreadyVotedForDish(votingToken.getVotingToken(), cpf);
         this.votingTokenService.inactivateVotingToken(votingToken.getVotingToken(), cpf);
-        System.out.println("Passou");
         return this.dishVoteRepository.save(dishVote);
     }
 }

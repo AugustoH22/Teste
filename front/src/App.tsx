@@ -6,17 +6,34 @@ import LoginPage from "./authentication/pages/Login";
 import SignUpPage from "./authentication/pages/SignUp";
 
 // Voting Pages
-import Access from "./voting/pages/Access";
-import Voting from "./voting/pages/Voting";
-import Final from "./voting/pages/Final";
+import Final from "./voting/components/Final";
 
 // Admin Pages
-import Menu from "./administrador/pages/menuPrincipal";
-import MenuGastronomico from "./administrador/pages/menuGastronomico";
-import MenuMusical from "./administrador/pages/menuMusical";
-import MenuJurados from "./administrador/pages/menuJurados";
+import Menu from "./administrador/pages/TelasPrincipal/menuPrincipal";
+import MenuGastronomico from "./administrador/pages/TelasPrincipal/menuGastronomico";
+import MenuMusical from "./administrador/pages/TelasPrincipal/menuMusical";
+import MenuAdmin from "./administrador/pages/GerenciarAdmins/menuAdmin";
+import MenuPratos from "./administrador/pages/FestivalGastronomico/MenuPratos"
+import MenuJurados from "./administrador/pages/FestivalGastronomico/MenuJurados";
+import MenuEstabelecimentos from "./administrador/pages/FestivalGastronomico/MenuEstabelecimentos";
+import MenuAddEstabelecimento from "./administrador/pages/FestivalGastronomico/AdicionarEstabelecimento"
+import AdicionarPrato from "./administrador/pages/FestivalGastronomico/AdicionarPrato";
+import GeraQRCodes from "./voting/pages/GerarQRCode"
+import { useState } from "react";
+import Vote from "./voting/pages/Vote";
 
 function App() {
+
+  const [restaurantes] = useState([
+    { id: '1', nome: 'Restaurante A' },
+    { id: '2', nome: 'Restaurante B' },
+    { id: '3', nome: 'Restaurante C' },
+  ]);
+  
+  const handleGerarQRCodes = (restauranteId: string, quantidade: number) => {
+    console.log(`Gerando ${quantidade} QRCodes para o restaurante ${restauranteId}`);
+  };
+
   return (
     <AuthProvider>
       <Routes>
@@ -32,9 +49,8 @@ function App() {
           <Route index element={<Navigate to="/vote/access" />} />
 
           {/* 🗳️ Fluxo de votação */}
-          <Route path="vote" element={<Outlet />}>
-            <Route path="access" element={<Access />} />
-            <Route path="voting" element={<Voting />} />
+          <Route path="voting" element={<Outlet />}>
+            <Route path="vote" element={<Vote />} />
             <Route path="final" element={<Final />} />
           </Route>
 
@@ -43,7 +59,13 @@ function App() {
             <Route path="menuPrincipal" element={<Menu />} />
             <Route path="menuGastronomico" element={<MenuGastronomico />} />
             <Route path="menuMusical" element={<MenuMusical />} />
+            <Route path="menuAdmin" element={<MenuAdmin />} />
+            <Route path="menuPratos" element={<MenuPratos />} />
             <Route path="menuJurados" element={<MenuJurados />} />
+            <Route path="menuEstabelecimentos" element={<MenuEstabelecimentos />} />
+            <Route path="menuaddEstabelecimentos" element={<MenuAddEstabelecimento />} />
+            <Route path="menuAdicionarPrato" element={<AdicionarPrato />} />
+            <Route path="gerar-qrcodes" element={<GeraQRCodes restaurantes={restaurantes} onGerar={handleGerarQRCodes}/>} />
           </Route>
         </Route>
 

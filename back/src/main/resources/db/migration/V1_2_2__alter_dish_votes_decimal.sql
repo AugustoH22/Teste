@@ -1,0 +1,9 @@
+ALTER TABLE dish_votes ALTER COLUMN presentation TYPE NUMERIC(4, 2);
+
+ALTER TABLE dish_votes ALTER COLUMN treatment TYPE NUMERIC(4, 2);
+
+ALTER TABLE dish_votes ALTER COLUMN creativity TYPE NUMERIC(4, 2);
+
+ALTER TABLE dish_votes ALTER COLUMN originality TYPE NUMERIC(4, 2);
+
+ALTER TABLE dish_votes ALTER COLUMN flavor TYPE NUMERIC(4, 2);

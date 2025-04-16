@@ -38,12 +38,11 @@ public class ReportService {
         try{
             Cell cell = new Cell();
 
-            cell.add(new Paragraph("Festival Cultural 2025").setFont(PdfFontFactory.createFont(FontFactory.TIMES_ROMAN)).setFontSize(12).setWidth(UnitValue.createPercentValue(100)).setTextAlignment(TextAlignment.CENTER).setMargin(0));
             cell.add(new Paragraph("Restaurante Araguaia").setFont(PdfFontFactory.createFont(FontFactory.TIMES_BOLD)).setFontSize(10).setTextAlignment(TextAlignment.CENTER).setMargin(0));
-            cell.add(new Image(ImageDataFactory.create(qrCodeService.generateQRCodeImage(String.format("http://localhost:5173/vote?votingToken=%s", votingToken), 120, 120))).setHorizontalAlignment(HorizontalAlignment.CENTER).setMargins(0,0,0,0));
+            cell.add(new Image(ImageDataFactory.create(qrCodeService.generateQRCodeImage(String.format("http://18.230.134.152/voting/vote?votingToken=%s", votingToken), 100, 100))).setHorizontalAlignment(HorizontalAlignment.CENTER).setMargins(0,0,0,0).setPadding(0));
             cell.add(new Paragraph(votingToken).setFont(PdfFontFactory.createFont(FontFactory.TIMES_BOLD)).setFontSize(12).setTextAlignment(TextAlignment.CENTER).setMargin(0).setPadding(0));
             cell.setPadding(4);
-            cell.setHeight(170);
+            cell.setHeight(155);
             cell.setVerticalAlignment(VerticalAlignment.MIDDLE);
             cell.setHorizontalAlignment(HorizontalAlignment.CENTER);
             return cell;
@@ -80,19 +79,22 @@ public class ReportService {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             PdfDocument votingTokensBatch = new PdfDocument(new PdfWriter(outputStream));
             Document document = new Document(votingTokensBatch);
-            document.setMargins(4, 4, 4, 4);
+            document.setMargins(12, 12, 12, 12);
             document.setHorizontalAlignment(HorizontalAlignment.CENTER);
             Rectangle pageDimensions = document.getPageEffectiveArea(PageSize.A4);
             float cellWidth = this.calculateCellWidth(pageDimensions, 4);
             //document.add(new Paragraph("Tokens - Lote 1"));
+            Table table = new Table(new float[]{cellWidth, cellWidth, cellWidth, cellWidth}).setFixedLayout().setExtendBottomRow(true);
+            for(int index = 0; index < tokens.size(); index++){
 
-            Table table = new Table(new float[]{cellWidth, cellWidth, cellWidth, cellWidth}).setFixedLayout();
-            table.setKeepWithNext(true);
-            table.setHorizontalAlignment(HorizontalAlignment.CENTER);
-            table.setVerticalAlignment(VerticalAlignment.MIDDLE);
-            tokens.stream().forEach(token -> {
-                table.addCell(this.reportQrCodeCellFactory(token.getVotingToken(), this.calculateCellHeight(pageDimensions, 4)));
-            });
+
+                if(index == 0 || index % 16 == 0){
+                    table.setKeepWithNext(true);
+                    table.setHorizontalAlignment(HorizontalAlignment.CENTER);
+                    table.setVerticalAlignment(VerticalAlignment.MIDDLE);
+                }
+                table.addCell(this.reportQrCodeCellFactory(tokens.get(index).getVotingToken(), this.calculateCellHeight(pageDimensions, 4)));
+            }
             document.add(table);
             document.close();
             return outputStream;

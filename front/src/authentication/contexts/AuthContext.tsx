@@ -6,8 +6,8 @@ import {
   LoginRequest,
   LoginResponse,
 } from "../types";
+import axios from "axios";
 import festivalApi from "@/core/api/api";
-import axios from 'axios';
 
 const AuthContext = createContext<AuthenticationContextTypes | null>(null);
 

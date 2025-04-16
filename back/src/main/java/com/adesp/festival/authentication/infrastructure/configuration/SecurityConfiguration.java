@@ -42,6 +42,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/request-recovery").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/auth/signup/verify-invite").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/vote/voting-token/status").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/voting/vote").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -58,7 +59,7 @@ public class SecurityConfiguration {
     @Bean
     UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://54.227.74.189:80"));
+        configuration.setAllowedOrigins(Arrays.asList("http://18.230.134.152:80"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

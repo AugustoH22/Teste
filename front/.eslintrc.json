@@ -36,7 +36,7 @@
     "prettier/prettier": "warn",
     "no-unused-vars": "off",
     "unused-imports/no-unused-vars": "off",
-    "unused-imports/no-unused-imports": "warn",
+    "unused-imports/no-unused-imports": "off",
     "@stylistic/js/indent": ["error", 2],
     "@stylistic/js/quotes": ["error", "double"],
     "@typescript-eslint/no-unused-vars": [

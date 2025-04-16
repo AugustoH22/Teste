@@ -2,7 +2,10 @@ package com.adesp.festival.tokens.application.services;
 
 import com.adesp.festival.tokens.domain.entities.VotingToken;
 import com.adesp.festival.tokens.domain.entities.VotingTokenBatch;
+import com.adesp.festival.tokens.domain.exceptions.NotFoundVotingTokenBatchException;
+import com.adesp.festival.tokens.domain.repositories.VotingTokenBatchRepository;
 import com.adesp.festival.tokens.domain.repositories.VotingTokenRepository;
+import com.adesp.festival.voting.domain.exceptions.CPFHasAlreadyVotedForDishException;
 import com.adesp.festival.voting.domain.exceptions.InvalidVotingTokenException;
 import com.adesp.festival.voting.domain.exceptions.NotFoundVotingTokenException;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -16,9 +19,13 @@ import java.util.Optional;
 public class VotingTokenService {
 
     private final VotingTokenRepository votingTokenRepository;
+    private final VotingTokenBatchService votingTokenBatchService;
+    private final VotingTokenBatchRepository votingTokenBatchRepository;
 
-    public VotingTokenService(VotingTokenRepository votingTokenRepository) {
+    public VotingTokenService(VotingTokenRepository votingTokenRepository, VotingTokenBatchService votingTokenBatchService, VotingTokenBatchRepository votingTokenBatchRepository) {
         this.votingTokenRepository = votingTokenRepository;
+        this.votingTokenBatchService = votingTokenBatchService;
+        this.votingTokenBatchRepository = votingTokenBatchRepository;
     }
 
     public Boolean votingTokenExists(String votingToken){
@@ -81,5 +88,24 @@ public class VotingTokenService {
                 })
                 .orElseThrow(() -> new NotFoundVotingTokenException());
         this.votingTokenRepository.save(votingToken);
+    }
+
+    public Boolean cpfHasAlreadyVotedForDish(String votingToken, String cpf){
+        Long dishId = this.getVotingTokenDishId(votingToken);
+        Optional<VotingToken> token = this.votingTokenRepository.findVoteByCpfAndDish(cpf, dishId);
+
+        if(token.isPresent()){
+            throw new CPFHasAlreadyVotedForDishException();
+        }
+
+        return false;
+    }
+
+    public Long getVotingTokenDishId(String votingToken){
+        VotingToken token = this.votingTokenRepository.findByVotingToken(votingToken)
+                .orElseThrow(() -> new NotFoundVotingTokenException());
+        return this.votingTokenBatchRepository.findById(token.getBatch().getId())
+                .orElseThrow(() -> new NotFoundVotingTokenBatchException())
+                .getId();
     }
 }

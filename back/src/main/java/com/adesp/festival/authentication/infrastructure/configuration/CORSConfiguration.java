@@ -14,7 +14,7 @@ public class CORSConfiguration {
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/**")
-                        .allowedOrigins("http://54.227.74.189:80")
+                        .allowedOrigins("http://18.230.134.152:80")
                         .allowedHeaders("*")
                         .allowedMethods("*")
                         .allowCredentials(true);

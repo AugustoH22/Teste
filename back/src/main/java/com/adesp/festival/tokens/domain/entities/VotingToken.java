@@ -154,4 +154,12 @@ public class VotingToken {
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public VotingTokenBatch getBatch() {
+        return batch;
+    }
+
+    public void setBatch(VotingTokenBatch batch) {
+        this.batch = batch;
+    }
 }
